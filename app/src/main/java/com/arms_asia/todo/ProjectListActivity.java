@@ -112,7 +112,7 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                 mProjectList.clear();
 
                 //Get our list of project
-                if (response.body().size() > 0) {
+                if (response.body() != null) {
                     mProjectList.addAll(response.body());
                     if (dismissDialog) {
                         mProgressDialog.dismiss();
