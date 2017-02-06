@@ -8,6 +8,7 @@ public class Tasks {
     private boolean status;
     private Date createdDate;
     private Date updatedDate;
+    private int projectId;
 
     public int getId() {
         return id;
@@ -47,5 +48,13 @@ public class Tasks {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
     }
 }

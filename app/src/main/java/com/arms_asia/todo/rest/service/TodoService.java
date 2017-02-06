@@ -30,29 +30,12 @@ public interface TodoService {
     @GET("tasks/")
     Call<List<Tasks>> getTasksByProjectId(@Query("projectId") int projectId);
 
-//    // Project API
-//    @GET("project/getAllProject")
-//    Call<List<Project>> getAllProject();
-//
-//    @POST("project/create")
-//    Call<Project> createProject(@Body Project project);
-//
-//    @POST("project/update")
-//    Call<Project> updateProject(@Body Project project);
-//
-//    @DELETE("project/delete/{id}")
-//    Call<Void> deleteProject(@Path("id") int id);
-//
-//    // Task API
-//    @GET("getTask/{id}")
-//    Call<List<Task>> getTask(@Path("id") int id);
-//
-//    @POST("create")
-//    Call<Task> createTask(@Body Task task);
-//
-//    @POST("update/{id}/{status}")
-//    Call<Task> updateTaskStatus(@Path("id") int id, @Path("status") boolean status);
-//
-//    @DELETE("delete/{id}")
-//    Call<Void> deleteTask(@Path("id") int id);
+    @POST("tasks/")
+    Call<Tasks> createTask(@Body Tasks task);
+
+    @PUT("tasks/{id}")
+    Call<Tasks> updateTask(@Path("id") int id, @Body Tasks task);
+
+    @DELETE("tasks/{id}")
+    Call<Void> deleteTask(@Path("id") int id);
 }

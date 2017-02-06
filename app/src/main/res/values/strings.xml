@@ -8,4 +8,8 @@
     <string name="dialog_negative_button">Cancel</string>
 
     <string name="dialog_project_add_title">Add a new Project</string>
+    <string name="dialog_task_add_title">Add a new Task</string>
+
+    <string name="dialog_project_edit_title">Edit a Project</string>
+    <string name="dialog_task_edit_title">Edit a Task</string>
 </resources>

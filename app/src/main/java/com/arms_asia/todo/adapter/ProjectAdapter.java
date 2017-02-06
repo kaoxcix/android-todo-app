@@ -1,7 +1,6 @@
 package com.arms_asia.todo.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -19,22 +18,19 @@ import java.util.List;
 import java.util.Locale;
 
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.TodoViewHolder> {
+    private Context mContext;
     private List<Projects> mProjectList;
     private ItemClickListener itemClickListener;
     private SparseBooleanArray mSelectedItemsIds;
-
 
     public void setOnClickListener(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
 
-
-
     class TodoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener {
         TextView tvProjectName;
         TextView tvUpdatedDate;
         TextView tvTasksCount;
-
 
         TodoViewHolder(View itemView) {
             super(itemView);
@@ -46,12 +42,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.TodoView
             itemView.setOnLongClickListener(this);
         }
 
-
-
         @Override
         public void onClick(View v) {
             itemClickListener.onClick(v, getAdapterPosition(), false, null);
-
         }
 
         @Override
@@ -68,8 +61,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.TodoView
     }
 
     public ProjectAdapter(Context context, List<Projects> projectList) {
-        this.mProjectList = projectList;
-        this.mSelectedItemsIds = new SparseBooleanArray();
+        mContext = context;
+        mProjectList = projectList;
+        mSelectedItemsIds = new SparseBooleanArray();
     }
 
     @Override
@@ -89,9 +83,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.TodoView
         holder.tvUpdatedDate.setText(updatedDate);
         holder.tvTasksCount.setText(String.valueOf(mProjectList.get(position).getTasksCount()));
 
-        holder.itemView
-                .setBackgroundColor(mSelectedItemsIds.get(position) ? 0x12000000
-                        : Color.TRANSPARENT);
+        holder.itemView.setSelected(mSelectedItemsIds.get(position));
     }
 
 
@@ -105,16 +97,14 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.TodoView
         selectView(position, !mSelectedItemsIds.get(position));
     }
 
-
     //Remove selected selections
     public void removeSelection() {
         mSelectedItemsIds = new SparseBooleanArray();
         notifyDataSetChanged();
     }
 
-
     //Put or delete selected position into SparseBooleanArray
-    public void selectView(int position, boolean value) {
+    private void selectView(int position, boolean value) {
         if (value)
             mSelectedItemsIds.put(position, value);
         else
