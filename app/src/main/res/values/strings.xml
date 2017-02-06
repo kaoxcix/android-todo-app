@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Todo</string>
+    <string name="action_reload_project_list">Reload Project List</string>
+    <string name="title_activity_project_list">Projects</string>
+    <string name="title_activity_task_list">Tasks</string>
+
+    <string name="dialog_positive_button">OK</string>
+    <string name="dialog_negative_button">Cancel</string>
+
+    <string name="dialog_project_add_title">Add a new Project</string>
+</resources>
