@@ -101,13 +101,13 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                 //Get our list of task
                 mTaskList.clear();
 
-                if(response.body() != null) {
+                if (response.body() != null) {
                     mTaskList.addAll(response.body());
-                    if(dismissDialog) {
+                    if (dismissDialog) {
                         mProgressDialog.dismiss();
                     }
                 } else {
-                    if(dismissDialog) {
+                    if (dismissDialog) {
                         mProgressDialog.dismiss();
                     }
                     Toast.makeText(TaskListActivity.this, "Nothing task", Toast.LENGTH_SHORT).show();
@@ -115,10 +115,11 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
 
                 mTaskAdapter.notifyDataSetChanged();
             }
+
             @Override
-            public void onFailure(Call<List<Tasks>> call, Throwable t){
+            public void onFailure(Call<List<Tasks>> call, Throwable t) {
                 //Handle on Failure here
-                if(dismissDialog) {
+                if (dismissDialog) {
                     mProgressDialog.dismiss();
                 }
                 Toast.makeText(TaskListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -157,7 +158,7 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                                 mProgressDialog.show();
 
                                 String taskName = editTextTaskName.getText().toString().trim();
-                                if(taskName.length() > 0) {
+                                if (taskName.length() > 0) {
                                     Tasks task = new Tasks();
                                     task.setName(taskName);
                                     task.setProjectId(mProjectId);
@@ -212,7 +213,7 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
             mActionMode.setTitle(String.valueOf(mTaskAdapter.getSelectedCount()) + " selected");
 
             Menu menu = mActionMode.getMenu();
-            if(mTaskAdapter.getSelectedCount() > 1) {
+            if (mTaskAdapter.getSelectedCount() > 1) {
                 menu.findItem(R.id.action_edit).setVisible(false);
                 menu.findItem(R.id.action_delete).setVisible(true);
             } else {
@@ -249,9 +250,6 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
 
         @Override
         public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
-
-            mProgressDialog.show();
-
             switch (item.getItemId()) {
                 case R.id.action_edit:
                     LayoutInflater layoutInflaterAndroid = LayoutInflater.from(context);
@@ -270,9 +268,11 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                             .setCancelable(false)
                             .setPositiveButton(getString(R.string.dialog_positive_button), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialogBox, int id) {
+                                    mProgressDialog.show();
+
                                     int taskId = mTaskList.get(selectedE.keyAt(0)).getId();
                                     String taskName = editTextTaskName.getText().toString().trim();
-                                    if(taskName.length() > 0) {
+                                    if (taskName.length() > 0) {
                                         Tasks task = new Tasks();
                                         task.setName(taskName);
 
@@ -306,6 +306,8 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                     break;
 
                 case R.id.action_delete:
+                    mProgressDialog.show();
+
                     final SparseBooleanArray selectedD = mTaskAdapter.getSelectedIds();
                     for (int i = 0; i < selectedD.size(); i++) {
                         if (selectedD.valueAt(i)) {
@@ -316,7 +318,7 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                             callT.enqueue(new Callback<Void>() {
                                 @Override
                                 public void onResponse(Call<Void> call, Response<Void> response) {
-                                    if(current == (selectedD.size() - 1)) {
+                                    if (current == (selectedD.size() - 1)) {
                                         fetchTask(false);
                                         mProgressDialog.dismiss();
                                     }
@@ -324,7 +326,7 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
 
                                 @Override
                                 public void onFailure(Call<Void> call, Throwable t) {
-                                    if(current == (selectedD.size() - 1)) {
+                                    if (current == (selectedD.size() - 1)) {
                                         fetchTask(false);
                                         mProgressDialog.dismiss();
                                     }

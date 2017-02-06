@@ -20,16 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tv_project_name"
-            android:layout_weight="4"
-            android:textAppearance="@android:style/TextAppearance.Material.Headline" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tv_updated_date"
-            android:layout_weight="4"
-            android:textAppearance="@android:style/TextAppearance.Material.Caption" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
     </LinearLayout>
 
     <TextView
@@ -38,6 +36,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_tasks_count"
         android:layout_weight="1"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
-        android:textAlignment="textEnd" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:gravity="end" />
 </LinearLayout>

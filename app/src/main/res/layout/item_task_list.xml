@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_task_name"
         android:layout_weight="4"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="?android:attr/textColorPrimary"
         android:layout_width="0dp" />
 

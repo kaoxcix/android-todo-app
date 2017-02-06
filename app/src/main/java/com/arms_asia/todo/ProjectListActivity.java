@@ -112,13 +112,13 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                 mProjectList.clear();
 
                 //Get our list of project
-                if(response.body().size() > 0) {
+                if (response.body().size() > 0) {
                     mProjectList.addAll(response.body());
-                    if(dismissDialog) {
+                    if (dismissDialog) {
                         mProgressDialog.dismiss();
                     }
                 } else {
-                    if(dismissDialog) {
+                    if (dismissDialog) {
                         mProgressDialog.dismiss();
                     }
                     Toast.makeText(ProjectListActivity.this, "Nothing project", Toast.LENGTH_SHORT).show();
@@ -126,10 +126,11 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
 
                 mProjectAdapter.notifyDataSetChanged();
             }
+
             @Override
-            public void onFailure(Call<List<Projects>> call, Throwable t){
+            public void onFailure(Call<List<Projects>> call, Throwable t) {
                 //Handle on Failure here
-                if(dismissDialog) {
+                if (dismissDialog) {
                     mProgressDialog.dismiss();
                 }
                 Toast.makeText(ProjectListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -166,39 +167,39 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.dialog_positive_button),
                         new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialogBox, int id) {
-                        dialogBox.dismiss();
+                            public void onClick(final DialogInterface dialogBox, int id) {
+                                dialogBox.dismiss();
 
-                        mProgressDialog.show();
+                                mProgressDialog.show();
 
-                        String projectName = editTextProjectName.getText().toString().trim();
-                        if(projectName.length() > 0) {
-                            Projects project = new Projects();
-                            project.setName(projectName);
-                            Call<Projects> call = RestClient.getTodoService().createProject(project);
-                            call.enqueue(new Callback<Projects>() {
-                                @Override
-                                public void onResponse(Call<Projects> call, Response<Projects> response) {
-                                    fetchProject(false);
-                                    mProgressDialog.dismiss();
+                                String projectName = editTextProjectName.getText().toString().trim();
+                                if (projectName.length() > 0) {
+                                    Projects project = new Projects();
+                                    project.setName(projectName);
+                                    Call<Projects> call = RestClient.getTodoService().createProject(project);
+                                    call.enqueue(new Callback<Projects>() {
+                                        @Override
+                                        public void onResponse(Call<Projects> call, Response<Projects> response) {
+                                            fetchProject(false);
+                                            mProgressDialog.dismiss();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Projects> call, Throwable t) {
+                                            mProgressDialog.dismiss();
+                                            Toast.makeText(ProjectListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                 }
-
-                                @Override
-                                public void onFailure(Call<Projects> call, Throwable t) {
-                                    mProgressDialog.dismiss();
-                                    Toast.makeText(ProjectListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    }
-                })
+                            }
+                        })
 
                 .setNegativeButton(getString(R.string.dialog_negative_button),
                         new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialogBox, int id) {
-                        dialogBox.dismiss();
-                    }
-                });
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                dialogBox.dismiss();
+                            }
+                        });
 
         AlertDialog alertDialogAndroid = builder.create();
         alertDialogAndroid.show();
@@ -225,7 +226,7 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
             mActionMode.setTitle(String.valueOf(mProjectAdapter.getSelectedCount()) + " selected");
 
             Menu menu = mActionMode.getMenu();
-            if(mProjectAdapter.getSelectedCount() > 1) {
+            if (mProjectAdapter.getSelectedCount() > 1) {
                 menu.findItem(R.id.action_edit).setVisible(false);
                 menu.findItem(R.id.action_delete).setVisible(true);
             } else {
@@ -254,17 +255,14 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                menu.findItem(R.id.action_edit).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-                menu.findItem(R.id.action_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.findItem(R.id.action_edit).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.findItem(R.id.action_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
             return true;
         }
 
         @Override
         public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
-
-            mProgressDialog.show();
-
             switch (item.getItemId()) {
                 case R.id.action_edit:
                     LayoutInflater layoutInflaterAndroid = LayoutInflater.from(context);
@@ -283,9 +281,11 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                             .setCancelable(false)
                             .setPositiveButton(getString(R.string.dialog_positive_button), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialogBox, int id) {
+                                    mProgressDialog.show();
+
                                     int projectId = mProjectList.get(selectedE.keyAt(0)).getId();
                                     String projectName = editTextProjectName.getText().toString().trim();
-                                    if(projectName.length() > 0) {
+                                    if (projectName.length() > 0) {
                                         Projects project = new Projects();
                                         project.setName(projectName);
 
@@ -319,33 +319,35 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                     break;
 
                 case R.id.action_delete:
+                    mProgressDialog.show();
+
                     final SparseBooleanArray selectedD = mProjectAdapter.getSelectedIds();
-                        for (int i = 0; i < selectedD.size(); i++) {
-                            if (selectedD.valueAt(i)) {
-                                final int key = selectedD.keyAt(i);
+                    for (int i = 0; i < selectedD.size(); i++) {
+                        if (selectedD.valueAt(i)) {
+                            final int key = selectedD.keyAt(i);
 
-                                Call<Void> callT = RestClient.getTodoService().deleteProject(mProjectList.get(key).getId());
-                                final int current = i;
-                                callT.enqueue(new Callback<Void>() {
-                                    @Override
-                                    public void onResponse(Call<Void> call, Response<Void> response) {
-                                        if(current == (selectedD.size() - 1)) {
-                                            fetchProject(false);
-                                            mProgressDialog.dismiss();
-                                        }
+                            Call<Void> callT = RestClient.getTodoService().deleteProject(mProjectList.get(key).getId());
+                            final int current = i;
+                            callT.enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if (current == (selectedD.size() - 1)) {
+                                        fetchProject(false);
+                                        mProgressDialog.dismiss();
                                     }
+                                }
 
-                                    @Override
-                                    public void onFailure(Call<Void> call, Throwable t) {
-                                        if(current == (selectedD.size() - 1)) {
-                                            fetchProject(false);
-                                            mProgressDialog.dismiss();
-                                            Toast.makeText(ProjectListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    if (current == (selectedD.size() - 1)) {
+                                        fetchProject(false);
+                                        mProgressDialog.dismiss();
+                                        Toast.makeText(ProjectListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
-                                });
-                            }
+                                }
+                            });
                         }
+                    }
 
                     break;
             }
