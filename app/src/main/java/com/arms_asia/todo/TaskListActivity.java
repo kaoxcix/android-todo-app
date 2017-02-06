@@ -313,7 +313,6 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                                 public void onResponse(Call<Void> call, Response<Void> response) {
                                     if (current == (selectedD.size() - 1)) {
                                         fetchTask();
-                                        mProgressDialog.dismiss();
                                     }
                                 }
 
@@ -321,7 +320,6 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                                 public void onFailure(Call<Void> call, Throwable t) {
                                     if (current == (selectedD.size() - 1)) {
                                         fetchTask();
-                                        mProgressDialog.dismiss();
                                     }
                                 }
                             });
