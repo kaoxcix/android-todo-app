@@ -78,7 +78,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TodoViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final TodoViewHolder holder, int position) {
+    public void onBindViewHolder(final TodoViewHolder holder, final int position) {
 
         holder.tvTaskName.setText(mTaskList.get(position).getName());
         holder.chbTaskStatus.setChecked(mTaskList.get(position).getStatus());
@@ -93,6 +93,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TodoViewHolder
                 task.setId(taskId);
                 task.setName(taskName);
                 task.setStatus(holder.chbTaskStatus.isChecked());
+                mTaskList.get(position).setStatus(holder.chbTaskStatus.isChecked());
 
                 Call<Tasks> call = RestClient.getTodoService().updateTask(taskId, task);
                 call.enqueue(new Callback<Tasks>() {
