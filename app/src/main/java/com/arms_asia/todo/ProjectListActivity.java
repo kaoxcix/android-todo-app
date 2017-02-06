@@ -101,10 +101,10 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
 
     private void initProjectList() {
         mProgressDialog.show();
-        fetchProject(true);
+        fetchProject();
     }
 
-    private void fetchProject(final boolean dismissDialog) {
+    private void fetchProject() {
         Call<List<Projects>> call = RestClient.getTodoService().getProjects();
         call.enqueue(new Callback<List<Projects>>() {
             @Override
@@ -114,13 +114,9 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                 //Get our list of project
                 if (response.body() != null) {
                     mProjectList.addAll(response.body());
-                    if (dismissDialog) {
-                        mProgressDialog.dismiss();
-                    }
+                    mProgressDialog.dismiss();
                 } else {
-                    if (dismissDialog) {
-                        mProgressDialog.dismiss();
-                    }
+                    mProgressDialog.dismiss();
                     Toast.makeText(ProjectListActivity.this, "Nothing project", Toast.LENGTH_SHORT).show();
                 }
 
@@ -130,9 +126,7 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
             @Override
             public void onFailure(Call<List<Projects>> call, Throwable t) {
                 //Handle on Failure here
-                if (dismissDialog) {
-                    mProgressDialog.dismiss();
-                }
+                mProgressDialog.dismiss();
                 Toast.makeText(ProjectListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -179,8 +173,7 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                                     call.enqueue(new Callback<Projects>() {
                                         @Override
                                         public void onResponse(Call<Projects> call, Response<Projects> response) {
-                                            fetchProject(false);
-                                            mProgressDialog.dismiss();
+                                            fetchProject();
                                         }
 
                                         @Override
@@ -293,8 +286,7 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                                         call.enqueue(new Callback<Projects>() {
                                             @Override
                                             public void onResponse(Call<Projects> call, Response<Projects> response) {
-                                                fetchProject(false);
-                                                mProgressDialog.dismiss();
+                                                fetchProject();
                                             }
 
                                             @Override
@@ -332,16 +324,14 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                                 @Override
                                 public void onResponse(Call<Void> call, Response<Void> response) {
                                     if (current == (selectedD.size() - 1)) {
-                                        fetchProject(false);
-                                        mProgressDialog.dismiss();
+                                        fetchProject();
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(Call<Void> call, Throwable t) {
                                     if (current == (selectedD.size() - 1)) {
-                                        fetchProject(false);
-                                        mProgressDialog.dismiss();
+                                        fetchProject();
                                         Toast.makeText(ProjectListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }

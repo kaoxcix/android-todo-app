@@ -90,10 +90,10 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
 
     private void initTaskList() {
         mProgressDialog.show();
-        fetchTask(true);
+        fetchTask();
     }
 
-    private void fetchTask(final boolean dismissDialog) {
+    private void fetchTask() {
         Call<List<Tasks>> call = RestClient.getTodoService().getTasksByProjectId(mProjectId);
         call.enqueue(new Callback<List<Tasks>>() {
             @Override
@@ -103,13 +103,10 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
 
                 if (response.body() != null) {
                     mTaskList.addAll(response.body());
-                    if (dismissDialog) {
-                        mProgressDialog.dismiss();
-                    }
+                    mProgressDialog.dismiss();
+
                 } else {
-                    if (dismissDialog) {
-                        mProgressDialog.dismiss();
-                    }
+                    mProgressDialog.dismiss();
                     Toast.makeText(TaskListActivity.this, "Nothing task", Toast.LENGTH_SHORT).show();
                 }
 
@@ -119,9 +116,7 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
             @Override
             public void onFailure(Call<List<Tasks>> call, Throwable t) {
                 //Handle on Failure here
-                if (dismissDialog) {
-                    mProgressDialog.dismiss();
-                }
+                mProgressDialog.dismiss();
                 Toast.makeText(TaskListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -166,8 +161,7 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                                     call.enqueue(new Callback<Tasks>() {
                                         @Override
                                         public void onResponse(Call<Tasks> call, Response<Tasks> response) {
-                                            fetchTask(false);
-                                            mProgressDialog.dismiss();
+                                            fetchTask();
                                         }
 
                                         @Override
@@ -280,8 +274,7 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                                         call.enqueue(new Callback<Tasks>() {
                                             @Override
                                             public void onResponse(Call<Tasks> call, Response<Tasks> response) {
-                                                fetchTask(false);
-                                                mProgressDialog.dismiss();
+                                                fetchTask();
                                             }
 
                                             @Override
@@ -319,7 +312,7 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                                 @Override
                                 public void onResponse(Call<Void> call, Response<Void> response) {
                                     if (current == (selectedD.size() - 1)) {
-                                        fetchTask(false);
+                                        fetchTask();
                                         mProgressDialog.dismiss();
                                     }
                                 }
@@ -327,7 +320,7 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                                 @Override
                                 public void onFailure(Call<Void> call, Throwable t) {
                                     if (current == (selectedD.size() - 1)) {
-                                        fetchTask(false);
+                                        fetchTask();
                                         mProgressDialog.dismiss();
                                     }
                                 }
