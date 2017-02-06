@@ -135,10 +135,6 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
             if (mActionMode != null) {
                 onListItemSelect(position);
             } else {
-//                mTaskAdapter.t
-//                if (view.getId() == mTaskAdapter.g){
-//
-//                }
             }
         }
     }
@@ -344,7 +340,6 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
 
             return false;
         }
-
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {

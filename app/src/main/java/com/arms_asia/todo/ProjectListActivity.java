@@ -28,8 +28,6 @@ import com.arms_asia.todo.helper.ItemClickListener;
 import com.arms_asia.todo.rest.RestClient;
 import com.arms_asia.todo.rest.model.Projects;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -356,7 +354,6 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
 
             return false;
         }
-
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
