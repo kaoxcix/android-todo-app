@@ -153,12 +153,11 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                 .setPositiveButton(getString(R.string.dialog_positive_button),
                         new DialogInterface.OnClickListener() {
                             public void onClick(final DialogInterface dialogBox, int id) {
-                                dialogBox.dismiss();
-
-                                mProgressDialog.show();
 
                                 String taskName = editTextTaskName.getText().toString().trim();
                                 if (taskName.length() > 0) {
+                                    mProgressDialog.show();
+
                                     Tasks task = new Tasks();
                                     task.setName(taskName);
                                     task.setProjectId(mProjectId);
@@ -229,7 +228,7 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
         private Context context;
         private TaskAdapter mTaskAdapter;
 
-        public ToolbarActionModeCallback(Context context, TaskAdapter mTaskAdapter) {
+        ToolbarActionModeCallback(Context context, TaskAdapter mTaskAdapter) {
             this.context = context;
             this.mTaskAdapter = mTaskAdapter;
         }
@@ -268,11 +267,12 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                             .setCancelable(false)
                             .setPositiveButton(getString(R.string.dialog_positive_button), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialogBox, int id) {
-                                    mProgressDialog.show();
 
                                     int taskId = mTaskList.get(selectedE.keyAt(0)).getId();
                                     String taskName = editTextTaskName.getText().toString().trim();
                                     if (taskName.length() > 0) {
+                                        mProgressDialog.show();
+
                                         Tasks task = new Tasks();
                                         task.setName(taskName);
 

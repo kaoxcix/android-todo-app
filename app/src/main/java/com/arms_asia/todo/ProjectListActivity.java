@@ -168,12 +168,11 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                 .setPositiveButton(getString(R.string.dialog_positive_button),
                         new DialogInterface.OnClickListener() {
                             public void onClick(final DialogInterface dialogBox, int id) {
-                                dialogBox.dismiss();
-
-                                mProgressDialog.show();
 
                                 String projectName = editTextProjectName.getText().toString().trim();
                                 if (projectName.length() > 0) {
+                                    mProgressDialog.show();
+
                                     Projects project = new Projects();
                                     project.setName(projectName);
                                     Call<Projects> call = RestClient.getTodoService().createProject(project);
@@ -281,11 +280,12 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                             .setCancelable(false)
                             .setPositiveButton(getString(R.string.dialog_positive_button), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialogBox, int id) {
-                                    mProgressDialog.show();
 
                                     int projectId = mProjectList.get(selectedE.keyAt(0)).getId();
                                     String projectName = editTextProjectName.getText().toString().trim();
                                     if (projectName.length() > 0) {
+                                        mProgressDialog.show();
+
                                         Projects project = new Projects();
                                         project.setName(projectName);
 
