@@ -117,6 +117,7 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
             @Override
             public void onFailure(Call<List<Tasks>> call, Throwable t) {
                 //Handle on Failure here
+                mTaskAdapter.notifyDataSetChanged();
                 mProgressDialog.dismiss();
                 Toast.makeText(TaskListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }

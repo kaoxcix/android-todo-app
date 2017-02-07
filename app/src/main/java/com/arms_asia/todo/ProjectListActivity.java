@@ -127,6 +127,7 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
             @Override
             public void onFailure(Call<List<Projects>> call, Throwable t) {
                 //Handle on Failure here
+                mProjectAdapter.notifyDataSetChanged();
                 mProgressDialog.dismiss();
                 Toast.makeText(ProjectListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
