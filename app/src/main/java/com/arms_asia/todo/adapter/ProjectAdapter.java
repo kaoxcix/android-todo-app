@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
+public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
     private Context mContext;
     private List<Projects> mProjectList;
     private ItemClickListener itemClickListener;
