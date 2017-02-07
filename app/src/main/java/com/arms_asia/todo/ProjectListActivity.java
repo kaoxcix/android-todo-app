@@ -53,16 +53,22 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // Call method addProject() to Start project add dialog
                 addProject();
             }
         });
 
+        // Prepare progress dialog for each Retrofit Request
         mProgressDialog = new ProgressDialog(ProjectListActivity.this);
         mProgressDialog.setMessage("Loading");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
 
+        // Prepare Empty RecyclerView
         initRecyclerView();
+
+        // When open Project Activity, Display progress dialog and Fetch project list by Retrofit
         initProjectList();
     }
 
@@ -82,7 +88,10 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_reload_project_list) {
+
+            // When click item on ActionBar (ToolBar) Fetch project list by Retrofit request
             initProjectList();
+
             return true;
         }
 
@@ -90,10 +99,15 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
     }
 
     private void initRecyclerView() {
+        // Prepare mProjectList as empty ArrayList
         mProjectList = new ArrayList<>();
-        mRecyclerViewProject = (RecyclerView) findViewById(R.id.rv_project);
+
+        // Passing Context and ProjectList(empty) to Adapter and Call Adapter.Onclick
         mProjectAdapter = new ProjectAdapter(ProjectListActivity.this, mProjectList);
         mProjectAdapter.setOnClickListener(this);
+
+        // Prepare RecyclerView add divider , set Layout look like a standard ListView and set adapter
+        mRecyclerViewProject = (RecyclerView) findViewById(R.id.rv_project);
         mRecyclerViewProject.addItemDecoration(new DividerItemDecoration(ProjectListActivity.this, DividerItemDecoration.VERTICAL));
         mRecyclerViewProject.setLayoutManager(new LinearLayoutManager(ProjectListActivity.this));
         mRecyclerViewProject.setAdapter(mProjectAdapter);
@@ -105,28 +119,38 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
     }
 
     private void fetchProject() {
+
+        // Clear project list when fetch project every time
         mProjectList.clear();
 
+        // Make a request by Retrofit for retrieving project list as JSON data and convert to <List<Projects> object
         Call<List<Projects>> call = RestClient.getTodoService().getProjects();
         call.enqueue(new Callback<List<Projects>>() {
             @Override
             public void onResponse(Call<List<Projects>> call, Response<List<Projects>> response) {
 
-                //Get our list of project
+                // If retrieve respond data, Add to project list and dismiss progress dialog
                 if (response.body() != null) {
                     mProjectList.addAll(response.body());
                     mProgressDialog.dismiss();
+
+                // If not retrieve respond data, just dismiss progress dialog and show Toast message
                 } else {
                     mProgressDialog.dismiss();
                     Toast.makeText(ProjectListActivity.this, "Nothing project", Toast.LENGTH_SHORT).show();
                 }
 
+                // Notify to adapter that data has changed
                 mProjectAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<List<Projects>> call, Throwable t) {
-                //Handle on Failure here
+
+                // If fail to make a request
+                // - Notify to adapter that data has changed()
+                // - Dismiss progress dialog
+                // - Show Toast message with throwable message
                 mProjectAdapter.notifyDataSetChanged();
                 mProgressDialog.dismiss();
                 Toast.makeText(ProjectListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -137,11 +161,16 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
     @Override
     public void onClick(View view, int position, boolean isLongClick, MotionEvent motionEvent) {
         if (isLongClick) {
+
+            // If LongClick Always start Action Mode
             onListItemSelect(position);
         } else {
-            //If ActionMode not null select item
+
+            //If Click in Action Mode
             if (mActionMode != null) {
                 onListItemSelect(position);
+
+            //If Click not in Action Mode, Go to Task List Activity
             } else {
                 Intent intent = new Intent(ProjectListActivity.this, TaskListActivity.class);
                 intent.putExtra(TaskListActivity.PROJECT_ID, mProjectList.get(position).getId());
@@ -152,12 +181,23 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
     }
 
     private void addProject() {
-        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(ProjectListActivity.this);
-        final View view = layoutInflaterAndroid.inflate(R.layout.dialog_project, null);
+
+        // Get LayoutInflater from this Acitivity
+        LayoutInflater layoutInflater = LayoutInflater.from(ProjectListActivity.this);
+
+        // Inflate dialog_project.xml to view object
+        final View view = layoutInflater.inflate(R.layout.dialog_project, null);
+
+        // Make builder for AlertDialog with the default alert dialog theme
         AlertDialog.Builder builder = new AlertDialog.Builder(ProjectListActivity.this);
+
+        // Set a custom view resource
         builder.setView(view);
+
+        // Set title
         TextView textViewDialogTitle = (TextView) view.findViewById(R.id.tv_dialog_title);
         textViewDialogTitle.setText(getString(R.string.dialog_project_add_title));
+
         final EditText editTextProjectName = (EditText) view.findViewById(R.id.edt_project_name);
         builder
                 .setCancelable(false)
@@ -165,6 +205,7 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                         new DialogInterface.OnClickListener() {
                             public void onClick(final DialogInterface dialogBox, int id) {
 
+                                // If get String from EditText, Make a Request by Retrofit
                                 String projectName = editTextProjectName.getText().toString().trim();
                                 if (projectName.length() > 0) {
                                     mProgressDialog.show();
@@ -175,11 +216,16 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                                     call.enqueue(new Callback<Projects>() {
                                         @Override
                                         public void onResponse(Call<Projects> call, Response<Projects> response) {
+                                            // Fetch project list after new project has been added
                                             fetchProject();
                                         }
 
                                         @Override
                                         public void onFailure(Call<Projects> call, Throwable t) {
+
+                                            // If fail to make a request
+                                            // - Dismiss progress dialog
+                                            // - Show Toast message with throwable message
                                             mProgressDialog.dismiss();
                                             Toast.makeText(ProjectListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
@@ -195,30 +241,33 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                             }
                         });
 
-        AlertDialog alertDialogAndroid = builder.create();
-        alertDialogAndroid.show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
-    //List item select method
     private void onListItemSelect(int position) {
-        mProjectAdapter.toggleSelection(position);//Toggle the selection
+        // Toggle the selection
+        mProjectAdapter.toggleSelection(position);
 
-        boolean hasCheckedItems = mProjectAdapter.getSelectedCount() > 0;//Check if any items are already selected or not
+        //Check if any items are already selected or not
+        boolean hasCheckedItems = mProjectAdapter.getSelectedCount() > 0;
 
         if (hasCheckedItems && mActionMode == null) {
-            // there are some selected items, start the mActionMode
+            // If there are some selected items, start the mActionMode
             mActionMode = startSupportActionMode(new ToolbarActionModeCallback(ProjectListActivity.this, mProjectAdapter));
 
 
         } else if (!hasCheckedItems && mActionMode != null) {
-            // there no selected items, finish the mActionMode
+            // If there no selected items, finish the mActionMode
             mActionMode.finish();
         }
 
         if (mActionMode != null) {
-            //set action mode title on item selection
+            // Set action mode title on item selection
             mActionMode.setTitle(String.valueOf(mProjectAdapter.getSelectedCount()) + " selected");
 
+            // If selected item more than 1, display only delete action
+            // else display edit and del action
             Menu menu = mActionMode.getMenu();
             if (mProjectAdapter.getSelectedCount() > 1) {
                 menu.findItem(R.id.action_edit).setVisible(false);
@@ -243,7 +292,8 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate(R.menu.action_menu, menu);//Inflate the menu over action mode
+            //Inflate the menu over action mode
+            mode.getMenuInflater().inflate(R.menu.action_menu, menu);
             return true;
         }
 
@@ -259,8 +309,8 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
         public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.action_edit:
-                    LayoutInflater layoutInflaterAndroid = LayoutInflater.from(context);
-                    final View view = layoutInflaterAndroid.inflate(R.layout.dialog_project, null);
+                    LayoutInflater layoutInflater = LayoutInflater.from(context);
+                    final View view = layoutInflater.inflate(R.layout.dialog_project, null);
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setView(view);
 
@@ -308,8 +358,8 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
                                         }
                                     });
 
-                    AlertDialog alertDialogAndroid = builder.create();
-                    alertDialogAndroid.show();
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
                     break;
 
                 case R.id.action_delete:

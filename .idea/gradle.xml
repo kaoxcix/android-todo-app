@@ -8,8 +8,8 @@
         <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.14.1" />
         <option name="modules">
           <set>
-            <option value="$USER_HOME$/Desktop/Projects/android/stage/android-todo-app" />
-            <option value="$USER_HOME$/Desktop/Projects/android/stage/android-todo-app/app" />
+            <option value="$USER_HOME$/Desktop/Projects/android/android-todo-app" />
+            <option value="$USER_HOME$/Desktop/Projects/android/android-todo-app/app" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -138,8 +138,8 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
     }
 
     private void addTask() {
-        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(TaskListActivity.this);
-        final View view = layoutInflaterAndroid.inflate(R.layout.dialog_task, null);
+        LayoutInflater layoutInflater = LayoutInflater.from(TaskListActivity.this);
+        final View view = layoutInflater.inflate(R.layout.dialog_task, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(TaskListActivity.this);
         builder.setView(view);
         TextView textViewDialogTitle = (TextView) view.findViewById(R.id.tv_dialog_title);
@@ -183,8 +183,8 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                             }
                         });
 
-        AlertDialog alertDialogAndroid = builder.create();
-        alertDialogAndroid.show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     //List item select method
@@ -247,8 +247,8 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
         public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.action_edit:
-                    LayoutInflater layoutInflaterAndroid = LayoutInflater.from(context);
-                    final View view = layoutInflaterAndroid.inflate(R.layout.dialog_task, null);
+                    LayoutInflater layoutInflater = LayoutInflater.from(context);
+                    final View view = layoutInflater.inflate(R.layout.dialog_task, null);
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setView(view);
 
@@ -296,8 +296,8 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
                                         }
                                     });
 
-                    AlertDialog alertDialogAndroid = builder.create();
-                    alertDialogAndroid.show();
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
                     break;
 
                 case R.id.action_delete:
