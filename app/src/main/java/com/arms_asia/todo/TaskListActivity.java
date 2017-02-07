@@ -271,6 +271,7 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
 
                                         Tasks task = new Tasks();
                                         task.setName(taskName);
+                                        task.setStatus(mTaskList.get(selectedE.keyAt(0)).getStatus());
 
                                         Call<Tasks> call = RestClient.getTodoService().updateTask(taskId, task);
                                         call.enqueue(new Callback<Tasks>() {
