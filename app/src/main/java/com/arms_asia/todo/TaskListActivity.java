@@ -94,12 +94,13 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
     }
 
     private void fetchTask() {
+        mTaskList.clear();
+
         Call<List<Tasks>> call = RestClient.getTodoService().getTasksByProjectId(mProjectId);
         call.enqueue(new Callback<List<Tasks>>() {
             @Override
             public void onResponse(Call<List<Tasks>> call, Response<List<Tasks>> response) {
                 //Get our list of task
-                mTaskList.clear();
 
                 if (response.body() != null) {
                     mTaskList.addAll(response.body());

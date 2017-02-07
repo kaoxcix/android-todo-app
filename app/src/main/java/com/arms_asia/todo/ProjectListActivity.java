@@ -105,11 +105,12 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
     }
 
     private void fetchProject() {
+        mProjectList.clear();
+
         Call<List<Projects>> call = RestClient.getTodoService().getProjects();
         call.enqueue(new Callback<List<Projects>>() {
             @Override
             public void onResponse(Call<List<Projects>> call, Response<List<Projects>> response) {
-                mProjectList.clear();
 
                 //Get our list of project
                 if (response.body() != null) {

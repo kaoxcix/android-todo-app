@@ -8,7 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestClient {
-    private static final String BASE_URL = "http://192.168.57.1:50002";
+    private static final String BASE_URL = "http://192.168.33.1:50002";
     private static TodoService todoService;
 
     public static TodoService getTodoService() {
