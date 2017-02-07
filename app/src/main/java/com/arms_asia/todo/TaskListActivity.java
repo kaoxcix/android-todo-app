@@ -42,10 +42,10 @@ public class TaskListActivity extends AppCompatActivity implements ItemClickList
     private List<Tasks> mTaskList;
     private RecyclerView mRecyclerViewTask;
     private TaskAdapter mTaskAdapter;
+    private ProgressDialog mProgressDialog;
     private int mProjectId;
     private String mProjectName;
     private ActionMode mActionMode;
-    private ProgressDialog mProgressDialog;
 
 
     @Override

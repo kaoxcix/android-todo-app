@@ -39,8 +39,8 @@ public class ProjectListActivity extends AppCompatActivity implements ItemClickL
     private List<Projects> mProjectList;
     private RecyclerView mRecyclerViewProject;
     private ProjectAdapter mProjectAdapter;
-    private ActionMode mActionMode;
     private ProgressDialog mProgressDialog;
+    private ActionMode mActionMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
