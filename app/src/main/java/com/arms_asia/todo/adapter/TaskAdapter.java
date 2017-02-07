@@ -22,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TodoViewHolder> {
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private Context mContext;
     private List<Tasks> mTaskList;
     private ItemClickListener itemClickListener;
@@ -32,12 +32,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TodoViewHolder
         this.itemClickListener = itemClickListener;
     }
 
-    class TodoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener {
+    class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener {
         TextView tvTaskName;
         CheckBox chbTaskStatus;
 
 
-        TodoViewHolder(View itemView) {
+        TaskViewHolder(View itemView) {
             super(itemView);
             tvTaskName = (TextView) itemView.findViewById(R.id.tv_task_name);
             chbTaskStatus = (CheckBox) itemView.findViewById(R.id.chb_task_status);
@@ -72,13 +72,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TodoViewHolder
     }
 
     @Override
-    public TodoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task_list, parent, false);
-        return new TodoViewHolder(view);
+        return new TaskViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final TodoViewHolder holder, final int position) {
+    public void onBindViewHolder(final TaskViewHolder holder, final int position) {
 
         holder.tvTaskName.setText(mTaskList.get(position).getName());
         holder.chbTaskStatus.setChecked(mTaskList.get(position).getStatus());

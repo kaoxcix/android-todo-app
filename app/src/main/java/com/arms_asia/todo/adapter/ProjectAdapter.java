@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.TodoViewHolder> {
+class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder> {
     private Context mContext;
     private List<Projects> mProjectList;
     private ItemClickListener itemClickListener;
@@ -27,12 +27,12 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.TodoView
         this.itemClickListener = itemClickListener;
     }
 
-    class TodoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener {
+    class ProjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener {
         TextView tvProjectName;
         TextView tvUpdatedDate;
         TextView tvTasksCount;
 
-        TodoViewHolder(View itemView) {
+        ProjectViewHolder(View itemView) {
             super(itemView);
             tvProjectName = (TextView) itemView.findViewById(R.id.tv_project_name);
             tvUpdatedDate = (TextView) itemView.findViewById(R.id.tv_updated_date);
@@ -67,13 +67,13 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.TodoView
     }
 
     @Override
-    public TodoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_project_list, parent, false);
-        return new TodoViewHolder(view);
+        return new ProjectViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TodoViewHolder holder, int position) {
+    public void onBindViewHolder(ProjectViewHolder holder, int position) {
 
         String updatedDate = "Last updated : " +
                 new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault()).format(
