@@ -13,7 +13,7 @@ import com.arms_asia.todo.R;
 import com.arms_asia.todo.helper.ItemClickListener;
 import com.arms_asia.todo.rest.model.Projects;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -76,7 +76,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     public void onBindViewHolder(ProjectViewHolder holder, int position) {
 
         String updatedDate = "Last updated : " +
-                new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault()).format(
+                DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.getDefault()).format(
                         mProjectList.get(position).getUpdatedDate());
 
         holder.tvProjectName.setText(mProjectList.get(position).getName());
